@@ -1,22 +1,42 @@
-# Django settings for Django2 project.
+# Django settings for Binding project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
+    ('hemeng80', 'hemeng80@126.com'),
 )
 
 MANAGERS = ADMINS
 
+from os import environ
+debug = not environ.get("APP_NAME", "")
+if debug:
+    #LOCAL
+    db_name = "mytestdb"
+    name = "root"
+    pwd = "1234"
+    host = "127.0.0.1"
+    port = "3306"
+else:
+    #SAE
+    import sae.const
+    db_name = sae.const.MYSQL_DB
+    name = sae.const.MYSQL_USER
+    pwd = sae.const.MYSQL_PASS
+    host = sae.const.MYSQL_HOST
+    port = sae.const.MYSQL_PORT
+    host_s = sae.const.MYSQL_HOST_S
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': db_name,                      # Or path to database file if using sqlite3.
+        'USER': name,                      # Not used with sqlite3.
+        'PASSWORD': pwd,                  # Not used with sqlite3.
+        'HOST': host,                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': port,                      # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -81,7 +101,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '#$ftit^$42ghrtlxocx4h+c=l-n!01uv+4!f_*n0uwpjug*r1k'
+SECRET_KEY = 'f&amp;vit^p5e)!v0_13h5^#+57bw2e*oh#w)ajl=q68_$hls%jbda'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -100,12 +120,12 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'Django2.urls'
+ROOT_URLCONF = 'Binding.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'Django2.wsgi.application'
+WSGI_APPLICATION = 'Binding.wsgi.application'
 
-TEMPLATE_DIRS = (
+TEMPLATE_DIRS = ("Binding/templates"
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -118,6 +138,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'person',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
